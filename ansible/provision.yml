@@ -14,6 +14,10 @@
     - name: configuration_file
       prompt: "Full path to the VulnWhisperer configuration file"
       private: no
+    - name: es_api_basic_auth_username
+      prompt: "Username for elasticsearch authentication"
+    - name: es_api_basic_auth_password
+      prompt: "Password for elasticsearch authentication"
   pre_tasks:
     - name: assert the correct input is provided
       fail:
@@ -30,11 +34,20 @@
       when: not configuration_file_stat.stat.exists
   roles:
     - role: elastic.elasticsearch
-      # set to true to enable closed source branch
+      # set to true to enable closed source version
       es_enable_xpack: false
       es_instance_name: "vulnwhisperer"
-      es_major_version: "5.x"
-      es_version: "5.6.13"
+      es_major_version: "6.x"
+      es_version: "6.5.0"
       update_java: true
+    - role: geerlingguy.kibana
+      kibana_version: "6.x"
+      kibana_package: kibana-oss
+      kibana_package_state: present
+      kibana_service_state: started
+      kibana_service_enabled: true
+      kibana_elasticsearch_url: "http://localhost:9200"
+      kibana_elasticsearch_username: "{{ es_api_basic_auth_username }}"
+      kibana_elasticsearch_password: "{{ es_api_basic_auth_password }}"
     - role: vulnwhisperer
       tags: "{{ install_option }}"

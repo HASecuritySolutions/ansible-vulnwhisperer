@@ -58,6 +58,11 @@ variables or can be passed from the command line. Please refer to the upstream r
 
 *Note* vulnwhisperer at the time of writing only supports Elasticsearch version 5.x
 
+### Kibana
+
+This roles comes from the upstream kibana ansible [repository](https://github.com/geerlingguy/ansible-role-kibana) and has been installed via
+the `ansible-galaxy` tool. Please refer to the [official documentation](https://galaxy.ansible.com/) for more information.
+
 ### Vulnwhisperer
 
 This is the main role that configures the vulnwhisperer software. It creates a number of directories in which it clones
